@@ -13,19 +13,30 @@ public class NodoS<T> {
     
     private T info;
     
+    private int key;
+    
     private NodoS anterior;
     private NodoS siguiente;
     private NodoS superior;
     private NodoS inferior;
-
-    public NodoS(T info) {
-      this.info = info;
-      this.anterior = this;
-      this.siguiente = this;
-      this.superior = this;
-      this.inferior = this;
+    
+    public NodoS(){
+    
     }
-
+    public NodoS(T info, int key) {
+      this.validarKey(key);
+      this.info = info;
+      this.key = key;
+      this.anterior = null;
+      this.siguiente = null;
+      this.superior = null;
+      this.inferior = null;
+    }
+    
+    private void validarKey(int key){
+        if(key <0 || key > Integer.MAX_VALUE) throw new RuntimeException("key no valida");
+    }
+    
     public T getInfo() {
         return info;
     }
@@ -34,6 +45,14 @@ public class NodoS<T> {
         this.info = info;
     }
 
+    public int getKey() {
+        return key;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
+    }
+    
     public NodoS getAnterior() {
         return anterior;
     }
