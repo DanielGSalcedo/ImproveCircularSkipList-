@@ -84,4 +84,10 @@ public class NodoS<T> {
     public void setInferior(NodoS inferior) {
         this.inferior = inferior;
     }
+
+    @Override
+    public String toString() {
+        return "NodoS{" + "info=" + info + '}';
+    }
+    
 }
