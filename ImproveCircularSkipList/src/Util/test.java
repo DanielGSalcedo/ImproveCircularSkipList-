@@ -18,11 +18,15 @@ public class test {
        
         
         //System.out.println(lista.buscar(3).toString());
-       for(int i = 1; i< 1000000;i++){
+       for(int i = 1; i< 8;i++){
            lista.insertar(i, i);
        }
-      System.out.println(lista.buscar(200000));
-      // System.out.println(lista.toString());
+       lista.insertar(9, 9);
+       lista.insertar(10, 10);
+       lista.insertar(8,8);
+      System.out.println(lista.buscar(8));
+      System.out.println(lista.toString());
+      
     }
     
 }

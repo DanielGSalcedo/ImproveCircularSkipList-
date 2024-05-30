@@ -46,7 +46,7 @@ public class CDSkipList<T extends Comparable> {
                 }
             }
         }
-        if(aux.getKey() < key) return aux.getAnterior();
+        if(aux.getKey() == 0 || aux.getKey() > key ) return aux.getAnterior();
         return aux;
     }
     
