@@ -30,7 +30,7 @@ public class CDSkipList<T extends Comparable> {
         if(this.estaVacia()) return this.centinela;
         
         NodoS<T> aux = this.centinela;
-        if(aux.getInferior().getSiguiente().getKey() <= key && aux.getInferior().getAnterior().getKey() < key){
+        if(aux.getInferior().getSiguiente().getKey() >= key ){
             
             while(aux.getInferior() != null){
                 aux = aux.getInferior();
@@ -46,7 +46,7 @@ public class CDSkipList<T extends Comparable> {
                 }
             }
         }
-        if(aux.getKey() > key) return aux.getAnterior();
+        if(aux.getKey() < key) return aux.getAnterior();
         return aux;
     }
     
@@ -69,6 +69,7 @@ public class CDSkipList<T extends Comparable> {
            
             if(nivel > 0){
                aux.setInferior(ultimo);
+               ultimo.setSuperior(aux);
             }
             while(posicion.getSuperior() == null){
                 posicion = posicion.getAnterior(); 
@@ -89,7 +90,7 @@ public class CDSkipList<T extends Comparable> {
         return nuevo;
     }
     private void aumentarAltura(int nivel){
-        if(nivel >= this.altura){
+        if(nivel > this.altura){
             this.altura++;
             aumentarNivel();
         }
@@ -112,49 +113,26 @@ public class CDSkipList<T extends Comparable> {
         if(key <1 || key > Integer.MAX_VALUE) throw new RuntimeException("key no valida");
     }
 
-    
-    public String toString1() {
-        StringBuilder string = new StringBuilder();
-        NodoS<T> aux = this.centinela;
-        int nivel = this.altura;
-        while(aux.getInferior() != null){
-            string.append("nivel: ").append(nivel--).append("\n");
-                while(aux.getSiguiente().getInfo()!= null){
-                    aux = aux.getSiguiente();
-                    if(aux.getInfo() == null){
-                        string.append("centinela").append("->");
-
-                    }else{
-                        string.append(aux.getInfo().toString()).append("->");
-
-                    }
-                    
-                }
-           
-            aux = aux.getInferior();
-        }    
-        return string.toString();
+    public int getSize() {
+        return this.size;
     }
-
     
     public String toString() {
-        NodoS<T> aux = this.centinela;
-        int levels = altura;
         StringBuilder string = new StringBuilder();
+        NodoS<T> aux = this.centinela;
+        int nivel = (1+this.altura);
+        string.append("nivel: ").append(nivel--).append("\n").append("empty level");
         while(aux.getInferior() != null){
             aux = aux.getInferior();
-            string.append("nivel: ").append(levels--).append("\n");
-        }
-        while(aux.getSiguiente().getInfo()!= null){
-            aux = aux.getSiguiente();
-            if(aux.getInfo() == null){
-               string.append("null->");
-            }else{
-            string.append(aux.getInfo().toString()).append("->");
-            }
+            string.append("\nnivel: ").append(nivel--).append("\n");
+                while(aux.getSiguiente().getKey()!= 0){
+                    aux = aux.getSiguiente();
+                    string.append(aux.getInfo().toString()).append("->");
+                }
+            if(aux.getSiguiente().getKey()== 0)aux = aux.getSiguiente();
+            
         }
         return string.toString();
     }
-    
     
 }
