@@ -22,7 +22,7 @@ public class test {
        
         
         //System.out.println(lista.buscar(3).toString());
-       for(Integer i = 1; i< 6000000;i++){
+       for(Integer i = 1; i< 1000000;i++){
            lista.insertar(i);
        }
        lista.insertar(9);

@@ -9,13 +9,15 @@ package Util;
  * @author garci
  * @param <T>
  */
+@SuppressWarnings("rawtypes")
 public class NodoS<T extends Comparable> {
     
     private T info;
-    private NodoS anterior;
-    private NodoS siguiente;
-    private NodoS superior;
-    private NodoS inferior;
+    private NodoS<T> anterior;
+    private NodoS<T> siguiente;
+    private NodoS<T> superior;
+    private NodoS<T> inferior;
+    private NodoS<T> original;
     
     public NodoS(){
     
@@ -26,6 +28,7 @@ public class NodoS<T extends Comparable> {
       this.siguiente = null;
       this.superior = null;
       this.inferior = null;
+      this.original = null;
     }
     
     public T getInfo() {
@@ -36,11 +39,11 @@ public class NodoS<T extends Comparable> {
         this.info = info;
     }
     
-    public NodoS getAnterior() {
+    public NodoS<T> getAnterior() {
         return anterior;
     }
 
-    public void setAnterior(NodoS anterior) {
+    public void setAnterior(NodoS<T> anterior) {
         this.anterior = anterior;
     }
 
@@ -48,7 +51,7 @@ public class NodoS<T extends Comparable> {
         return siguiente;
     }
 
-    public void setSiguiente(NodoS siguiente) {
+    public void setSiguiente(NodoS<T> siguiente) {
         this.siguiente = siguiente;
     }
 
@@ -56,7 +59,7 @@ public class NodoS<T extends Comparable> {
         return superior;
     }
 
-    public void setSuperior(NodoS superior) {
+    public void setSuperior(NodoS<T> superior) {
         this.superior = superior;
     }
 
@@ -64,8 +67,16 @@ public class NodoS<T extends Comparable> {
         return inferior;
     }
 
-    public void setInferior(NodoS inferior) {
+    public void setInferior(NodoS<T> inferior) {
         this.inferior = inferior;
+    }
+
+    public NodoS getOriginal() {
+        return this.original;
+    }
+
+    public void setOriginal(NodoS<T> original) {
+        this.original = original ;
     }
 
     @Override
