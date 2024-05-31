@@ -13,59 +13,59 @@ import java.util.Random;
  */
 public class CDSkipList<T extends Comparable> {
     
-    private NodoS<T> centinela;
+    private NodoS<T> centinelaV;
     private int size = 0;
     private int altura = -1;
-    private Random random = new Random();
+    private Random random = new Random(); 
 
     public CDSkipList() {
-        this. centinela = new NodoS();
-        this.centinela.setAnterior(centinela);
-        this.centinela.setSiguiente(centinela);
-        this.centinela.setSuperior(centinela);   
+        this. centinelaV = new NodoS();
+        this.centinelaV.setAnterior(centinelaV);
+        this.centinelaV.setSiguiente(centinelaV);
+        this.centinelaV.setSuperior(centinelaV);   
     }
     
-    public NodoS<T> buscar(int key){
-        this.validarKey(key);
-        if(this.estaVacia()) return this.centinela;
+    public NodoS<T> buscar( T info){
+        if(this.estaVacia()) return this.centinelaV;
         
-        NodoS<T> aux = this.centinela;
-        if(aux.getInferior().getSiguiente().getKey() >= key ){
+        NodoS<T> aux = this.centinelaV;
+        
+        if(aux.getInferior().getSiguiente().getInfo().compareTo(info)>= 0){
             
             while(aux.getInferior() != null){
                 aux = aux.getInferior();
-                while( aux.getSiguiente().getKey()<= key && aux.getSiguiente().getKey()!= 0 ){
+                while(aux.getSiguiente().getInfo()!= null && aux.getSiguiente().getInfo().compareTo(info) <= 0 ){
                     aux = aux.getSiguiente();
                 }
             }
         }else{
             while(aux.getInferior() != null){
                 aux = aux.getInferior();
-                while(aux.getAnterior().getKey()>= key && aux.getAnterior()!= this.centinela){
+                while(aux.getAnterior().getInfo().compareTo(info) >= 0&& aux.getAnterior()!= this.centinelaV){
                     aux = aux.getAnterior();
                 }
             }
         }
-        if(aux.getKey() == 0 || aux.getKey() > key ) return aux.getAnterior();
+        if(aux.getInfo()== null || aux.getInfo().compareTo(info) > 0) return aux.getAnterior();
         return aux;
     }
     
-    public NodoS insertar(T info,int key){
-        this.validarKey(key);
-        NodoS<T> posicion = buscar(key);
+    public NodoS insertar(T info){
+        
+        NodoS<T> posicion = buscar(info);
         NodoS<T> aux = null;
         NodoS<T> ultimo;
         
         int nivel =-1;
         
-        if(posicion.getKey() == key){
+        if(posicion.getInfo() != null && posicion.getInfo().compareTo(info) == 0){
             return posicion;
         }
         do{
             nivel++;
             aumentarAltura(nivel);
             ultimo = aux;
-            aux = insertarDelante(info,posicion,key);
+            aux = insertarDelante(info,posicion);
            
             if(nivel > 0){
                aux.setInferior(ultimo);
@@ -78,8 +78,8 @@ public class CDSkipList<T extends Comparable> {
         }while(random.nextBoolean()== true);
        return aux;
     }
-    private NodoS insertarDelante(T info,NodoS<T> posicion,int key){
-        NodoS<T> nuevo = new NodoS(info,key);
+    private NodoS insertarDelante(T info,NodoS<T> posicion){
+        NodoS<T> nuevo = new NodoS(info);
         NodoS<T> nodoAnterior = posicion;
         
         nuevo.setAnterior(nodoAnterior);
@@ -101,35 +101,32 @@ public class CDSkipList<T extends Comparable> {
         
         nuevoCentinela.setSiguiente(nuevoCentinela);
         nuevoCentinela.setAnterior(nuevoCentinela);
-        nuevoCentinela.setInferior(this.centinela);
+        nuevoCentinela.setInferior(this.centinelaV);
         
-        this.centinela.setSuperior(nuevoCentinela);
-        this.centinela = nuevoCentinela;
+        this.centinelaV.setSuperior(nuevoCentinela);
+        this.centinelaV = nuevoCentinela;
     }
     public boolean estaVacia(){
         return this.size == 0;
     }
-    private void validarKey(int key){
-        if(key <1 || key > Integer.MAX_VALUE) throw new RuntimeException("key no valida");
-    }
-
+    
     public int getSize() {
         return this.size;
     }
     
     public String toString() {
         StringBuilder string = new StringBuilder();
-        NodoS<T> aux = this.centinela;
+        NodoS<T> aux = this.centinelaV;
         int nivel = (1+this.altura);
         string.append("nivel: ").append(nivel--).append("\n").append("empty level");
         while(aux.getInferior() != null){
             aux = aux.getInferior();
             string.append("\nnivel: ").append(nivel--).append("\n");
-                while(aux.getSiguiente().getKey()!= 0){
+                while(aux.getSiguiente().getInfo()!= null){
                     aux = aux.getSiguiente();
                     string.append(aux.getInfo().toString()).append("->");
                 }
-            if(aux.getSiguiente().getKey()== 0)aux = aux.getSiguiente();
+            if(aux.getSiguiente().getInfo()== null)aux = aux.getSiguiente();
             
         }
         return string.toString();
